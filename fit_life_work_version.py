@@ -70,6 +70,7 @@ def calculate_weight_goal(user_weight, user_height, current_bmi):
     weight_goal = TARGET_BMI * (user_height ** 2)
     # Разница между текущим весом и рекомендованным
     weight_difference = user_weight - weight_goal
+    absolut_weight_difference = abs(weight_difference)
     # Разница между текущим ИМТ и рекомендованным
     bmi_difference = abs(current_bmi - TARGET_BMI)
 
@@ -78,10 +79,10 @@ def calculate_weight_goal(user_weight, user_height, current_bmi):
     else:
         if weight_difference > 0:
             return ('Вам рекомендуется похудеть'
-                    f' на {abs(weight_difference):.1f} кг.')
+                    f' на {absolut_weight_difference:.1f} кг.')
         else:
             return ('Вам рекомендуется набрать'
-                    f' {abs(weight_difference):.1f} кг.')
+                    f' {absolut_weight_difference:.1f} кг.')
 
 
 # 1. Знакомство
