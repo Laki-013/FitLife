@@ -41,31 +41,21 @@ def get_integer_in_range(prompt_message, min_val=None, max_val=None):
         # Перед promt_message был input, но для прохождения pytest был выведен
         user_input = prompt_message
         try:
-            # 1. Сначала проверяем, что это вообще число (даже дробное)
-            value_float = float(user_input)
+            # 1. Сначала проверяем, что это вообще число 
+            value_int = int(user_input)
 
-            # 2. Проверяем, целое ли оно.
-            # Если дробная часть не равна 0, значит пользователь ввел дробь.
-            if not value_float.is_integer():
-                print('❌ Ошибка: нужно ввести целое число '
-                      '(без точек и запятых). Попробуйте снова.')
-                continue
-
-            # 3. Теперь превращаем в int, так как мы уже знаем, что число целое
-            value = int(value_float)
-
-            # 4. Стандартные проверки диапазона
-            if min_val is not None and value < min_val:
+            # 2. Стандартные проверки диапазона
+            if min_val is not None and value_int < min_val:
                 print('❌ Слишком мало! '
                       f'Значение должно быть не меньше {min_val}.')
                 continue
 
-            if max_val is not None and value > max_val:
+            if max_val is not None and value_int > max_val:
                 print('❌ Слишком много! '
                       f'Значение должно быть не больше {max_val}.')
                 continue
 
-            return value
+            return value_int
 
         except ValueError:
             # Сюда попадаем, если ввели буквы или непонятный набор символов
