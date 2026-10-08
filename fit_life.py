@@ -2,7 +2,12 @@
 WATER_PER_KG = 30  # Стандартная рекомендация для поддержания водного баланса
 ML_IN_LITER = 1000
 TARGET_BMI = 21.75  # Значение середины нормального ИМТ
-
+MIN_VAL_AGE = 14
+MAX_VAL_AGE = 90
+MIN_VAL_WEIGHT = 30
+MAX_VAL_WEIGHT = 200
+MIN_VAL_HEIGHT = 1
+MAX_VAL_HEIGHT = 2.5
 
 # Функция интерпритации ИМТ
 def get_bmi_category(bmi):
@@ -10,17 +15,17 @@ def get_bmi_category(bmi):
     # В соответствии с рекомендациями ВОЗ разработана интерпретация ИМТ
     if bmi < 16:
         return 'выраженный дефицит массы тела'
-    elif 16 <= bmi < 18.5:
+    if 16 <= bmi < 18.5:
         return 'недостаточная масса тела (дефицит)'
-    elif 18.5 <= bmi < 25:
+    if 18.5 <= bmi < 25:
         return 'в норме! Так держать!'
-    elif 25 <= bmi < 30:
+    if 25 <= bmi < 30:
         return 'избыточная масса тела (предожирение)'
-    elif 30 <= bmi < 35:
+    if 30 <= bmi < 35:
         return 'ожирение I степени'
-    elif 35 <= bmi < 40:
+    if 35 <= bmi < 40:
         return 'ожирение II степени'
-    elif 40 < bmi:
+    else:
         return 'ожирение III степени'
 
 
@@ -52,21 +57,23 @@ print(f'{user_name}, приятно познакомиться!')
 
 # Получение возраста пользователя через цикл (функции не проходят pytest)
 while True:
-    user_age = input('Сколько вам полных лет? (Укажите целое число): ')
+    user_age = input('Сколько вам полных лет?'
+                     ' (Укажите целое число, например 47): ')
     try:
         user_age = int(user_age)
 
         # Проверка диапазона
-        if user_age < 14:
+        if user_age < MIN_VAL_AGE:
             print('❌ Слишком мало! Возраст должен быть не меньше 14 лет.')
             continue
-        if user_age > 90:
+        if user_age > MAX_VAL_AGE:
             print('❌ Слишком много! Возраст должен быть не больше 90 лет.')
             continue
         break
 
     except ValueError:
-        print('❌ Ошибка: нужно ввести целое число (только цифры).')
+        print('❌ Ошибка: нужно ввести целое число'
+              ' (только цифры, например 34).')
 
 # 2. Сбор данных
 # Получение веса пользователя через цикл (функции не проходят pytest)
@@ -78,17 +85,17 @@ while True:
         user_weight = float(normalized_weight)
 
         # Проверка диапазона
-        if user_weight < 30:
+        if user_weight < MIN_VAL_WEIGHT:
             print('❌ Слишком мало! Вес должен быть не меньше 30 кг.')
             continue
-        if user_weight > 200:
+        if user_weight > MAX_VAL_WEIGHT:
             print('❌ Слишком много! Вес должен быть не больше 200 кг.')
             continue
         break
 
     except ValueError:
         print('❌ Ошибка: пожалуйста, введите корректное'
-              ' число (можно с точкой или запятой).')
+              ' число (можно с точкой или запятой, например 115 или 53,5).')
 # Получение роста пользователя через цикл (функции не проходят pytest)
 while True:
     user_height = input('Укажите пожалуйста ваш рост в метрах'
@@ -99,17 +106,17 @@ while True:
         user_height = float(normalized_user_height)
 
         # Проверка диапазона
-        if user_height < 1.0:
+        if user_height < MIN_VAL_HEIGHT:
             print('❌ Слишком мало! Рост должен быть не меньше 1 метра.')
             continue
-        if user_height > 2.5:
+        if user_height > MAX_VAL_HEIGHT:
             print('❌ Слишком много! Рост должен быть не больше 2.5 метров.')
             continue
         break
 
     except ValueError:
         print('❌ Ошибка: пожалуйста, введите корректное'
-              ' число (можно с точкой или запятой).')
+              ' число (можно с точкой или запятой, например 1,72).')
 
 
 # 3. Логика расчетов
