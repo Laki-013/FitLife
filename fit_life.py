@@ -4,44 +4,6 @@ ML_IN_LITER = 1000
 TARGET_BMI = 21.75  # Значение середины нормального ИМТ
 
 
-# Функция проверки ввода и преобразования в заданный тип данных
-def get_number(prompt_message, type_func, min_val=None, max_val=None):
-    """Функция проверки ввода и преобразования в заданный тип данных"""
-    while True:
-        user_input = input(prompt_message)
-        # 1. Нормализация для float (запятая -> точка), иначе оставляем
-        if type_func == float:
-            normalized_input = user_input.replace(',', '.')
-        else:
-            normalized_input = user_input
-
-        try:
-            # 2. Проверяем число ли это, приводим к заданному типу данных
-            value = type_func(normalized_input)
-
-            # 3. Проверка диапазона (логика общая для обоих типов)
-            if min_val is not None and value < min_val:
-                print('❌ Слишком мало! Значение'
-                      f' должно быть не меньше {min_val}.')
-                continue
-
-            if max_val is not None and value > max_val:
-                print('❌ Слишком много! Значение'
-                      f' должно быть не больше {max_val}.')
-                continue
-
-            return value
-
-        except ValueError:
-            # 4. Сообщение об ошибке
-            if type_func == float:
-                error_msg = ('Введите корректное число (можно c точкой'
-                             ' или запятой, например: 1.75 или 1,75)')
-            else:
-                error_msg = 'Введите только целое число(без запятых и точек)'
-            print(f'❌ Ошибка: {error_msg}.')
-
-
 # Функция интерпритации ИМТ
 def get_bmi_category(bmi):
     """Описание ИМТ"""
@@ -87,14 +49,68 @@ def calculate_weight_goal(user_weight, user_height, current_bmi):
 # 1. Знакомство
 user_name = input('Привет! Давайте начнем! Как вас зовут? ')
 print(f'{user_name}, приятно познакомиться!')
-user_age = get_number('Сколько вам полных лет? '
-                      '(Укажите целое число): ', int, 14, 90)
+
+# Получение возраста пользователя через цикл (функции не проходят pytest)
+while True:
+    user_age = input('Сколько вам полных лет? (Укажите целое число): ')
+    try:
+        user_age = int(user_age)
+
+        # Проверка диапазона
+        if user_age < 14:
+            print('❌ Слишком мало! Возраст должен быть не меньше 14 лет.')
+            continue
+        if user_age > 90:
+            print('❌ Слишком много! Возраст должен быть не больше 90 лет.')
+            continue
+        break
+
+    except ValueError:
+        print('❌ Ошибка: нужно ввести целое число (только цифры).')
 
 # 2. Сбор данных
-user_weight = get_number('Укажите пожалуйста ваш вес в кг '
-                         '(Например: 96): ', float, 30, 200)
-user_height = get_number('Укажите пожалуйста ваш рост в метрах '
-                         '(Например: 1.98): ', float, 1, 2.5)
+# Получение веса пользователя через цикл (функции не проходят pytest)
+while True:
+    user_weight = input('Укажите пожалуйста ваш вес в кг (Например: 96): ')
+    normalized_weight = user_weight.replace(',', '.')
+
+    try:
+        user_weight = float(normalized_weight)
+
+        # Проверка диапазона
+        if user_weight < 30:
+            print('❌ Слишком мало! Вес должен быть не меньше 30 кг.')
+            continue
+        if user_weight > 200:
+            print('❌ Слишком много! Вес должен быть не больше 200 кг.')
+            continue
+        break
+
+    except ValueError:
+        print('❌ Ошибка: пожалуйста, введите корректное'
+              ' число (можно с точкой или запятой).')
+# Получение роста пользователя через цикл (функции не проходят pytest)
+while True:
+    user_height = input('Укажите пожалуйста ваш рост в метрах'
+                        ' (Например: 1.98): ')
+    normalized_user_height = user_height.replace(',', '.')
+
+    try:
+        user_height = float(normalized_user_height)
+
+        # Проверка диапазона
+        if user_height < 1.0:
+            print('❌ Слишком мало! Рост должен быть не меньше 1 метра.')
+            continue
+        if user_height > 2.5:
+            print('❌ Слишком много! Рост должен быть не больше 2.5 метров.')
+            continue
+        break
+
+    except ValueError:
+        print('❌ Ошибка: пожалуйста, введите корректное'
+              ' число (можно с точкой или запятой).')
+
 
 # 3. Логика расчетов
 # Формула ИМТ: вес разделить на (рост в квадрате)
